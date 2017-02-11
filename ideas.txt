@@ -13,3 +13,10 @@ Encounters different kinds of enemies along the way
 Finds friend, escapes
 
 https://www.youtube.com/watch?v=I-yOf4Xg_R8
+
+Gameplay:
+Player level system
+Enemys and multiple enemy types (polymorphism)
+Drop system?
+Shop system?
+Levels, Text, Design
