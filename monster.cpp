@@ -8,17 +8,24 @@
 
 #include <stdio.h>
 #include "monster.h"
+#include "player.h"
 
 monster::monster(stage *currentstage)
 {
     m_health = 50;
     m_attack = 5;
     m_stage = currentstage;
+	m_xp = 100;
 }
 
-bool monster::isDead()
+bool monster::isDead(Player *killer)
 {
-    return (m_health > 0);
+	if (m_health <= 0) 
+	{
+		givexp(killer);
+		return true;
+	}
+	return false;
 }
 
 float monster::attack()
@@ -29,4 +36,9 @@ float monster::attack()
 void monster::takeDamage(float damage)
 {
     m_health -= damage;
+}
+
+void monster::givexp(Player *killer)
+{
+	killer->receivexp(m_xp);
 }
