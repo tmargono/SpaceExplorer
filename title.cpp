@@ -9,14 +9,14 @@ int displayTitleScreen()
 	window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(false);
 	Texture background;
-	background.loadFromFile("images/board.jpg");
+	background.loadFromFile("board.jpg");
 	Sprite background1(background);
 	
 
 	// Create a graphical text to display
 	sf::Font pangolin;
 	sf::Font barrio;
-	if (!pangolin.loadFromFile("text/Pangolin-Regular.ttf") || !barrio.loadFromFile("text/Barrio-Regular.ttf"))
+	if (!pangolin.loadFromFile("Pangolin-Regular.ttf") || !barrio.loadFromFile("Barrio-Regular.ttf"))
 		return EXIT_FAILURE;
 	
 	
@@ -28,7 +28,7 @@ int displayTitleScreen()
 	text.setPosition((SCRHEIGHT/2)-45, SCRWIDTH/2);
 	text1.setPosition(0, (SCRWIDTH / 2) - 200);
 
-	Clock clock;
+	Clock clock; //needs fixing, doesn't fade out with clock
 	Time elapsed = clock.getElapsedTime();
 	Time done = seconds(30);
 	
