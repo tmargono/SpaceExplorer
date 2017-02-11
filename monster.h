@@ -15,17 +15,19 @@ class monster
 {
 public:
     
-    monster(stage *currentStage);
-    bool isDead(Player *killer);
+    monster(stage *currentStage, int id);
+    bool isDead();
     float attack();
     void takeDamage(float damage);
 	void givexp(Player *killer);
+	int ID();
     
 private:
     stage *m_stage;
     float m_health;
     float m_attack;
 	float m_xp;
+	int m_id;
 };
 
 #endif /* monster_h */

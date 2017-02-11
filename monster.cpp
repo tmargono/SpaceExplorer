@@ -10,21 +10,19 @@
 #include "monster.h"
 #include "player.h"
 
-monster::monster(stage *currentstage)
+monster::monster(stage *currentstage, int id)
 {
+	m_id = id;
     m_health = 50;
     m_attack = 5;
     m_stage = currentstage;
 	m_xp = 100;
 }
 
-bool monster::isDead(Player *killer)
+bool monster::isDead()
 {
 	if (m_health <= 0) 
-	{
-		givexp(killer);
 		return true;
-	}
 	return false;
 }
 
@@ -41,4 +39,7 @@ void monster::takeDamage(float damage)
 void monster::givexp(Player *killer)
 {
 	killer->receivexp(m_xp);
+}
+int monster::ID() {
+	return m_id;
 }
