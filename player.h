@@ -12,6 +12,7 @@ public:
 	void takedamage(float damage);
 	bool death();
 	void levelup();
+	void receivexp(float xp);
 private:
 	stage *m_stage;
 	int m_level;

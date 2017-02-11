@@ -25,6 +25,9 @@ bool Player::death() {
 	return false;
 }
 void Player::levelup() {
-	if (m_xp >= 3000)	//TEMPORARY 3000
+	if (m_xp >= 2000*(1 + 0.20*m_level))	//TEMPORARY 3000
 		m_level++;
+}
+void Player::receivexp(float xp) {
+	m_xp += xp;
 }
