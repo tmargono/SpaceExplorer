@@ -29,3 +29,12 @@ void stage::playerAttack(Player *attacker, monster *attacked) {
 		deleteMonster(attacked->ID());	//temporary 5 for monster's id
 	}
 }
+bool stage::isPosInBound(int r, int c) const
+{
+	return (r >= 1 && r <= 100 && c >= 1 && c <= 100);
+}
+int stage::getCellStatus(int r, int c) const
+{
+	isPosInBound(r, c);
+	return m_grid[r - 1][c - 1];
+}
