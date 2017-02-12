@@ -14,9 +14,15 @@ void displayTitleScreen(RenderWindow& window);
 const double IMAGE_SIZE = 64;
 const int SCRWIDTH = 1280;
 const int SCRHEIGHT = 800;
+struct Point
+{
+	int x, y;
+};
 
 int main()
 {
+	
+
 	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
 
 	displayTitleScreen(titleWindow);
@@ -25,15 +31,27 @@ int main()
 
 	RenderWindow gameWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Space Explorer");
 
-	
+
 }
 
 
 
 void display(RenderWindow& window, std::string fileName, std::string fireballurl, int numPics)
 {
-	Player player1;
-	
+	srand(time(0));
+	Point block[20];
+	for (int i = 0; i<20; i++)
+	{
+		block[i].x = 1280-100;
+		block[i].y = rand() & 734 + 33;
+	}
+	//std::cout << block[0].x << " " << block[0].y;
+	//Player player1;
+	Texture asteroid;
+	asteroid.loadFromFile("asteroid.png");
+	Sprite asteroidsprite(asteroid);
+	asteroidsprite.scale(0.5, 0.5);
+
 	Texture space;
 	space.loadFromFile("space.png");
 
@@ -90,9 +108,22 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 		if (Keyboard::isKeyPressed(Keyboard::Up) && y > 0) y -= .5;
 		if (Keyboard::isKeyPressed(Keyboard::Down) && y < 672) y += .5;
 		s1.setPosition(x, y);
+		
+
 
 		window.clear();
 		window.draw(bg);
+		//asteroidsprite.setPosition(block[0].x, block[0].y);
+		//window.draw(asteroidsprite);
+		
+		for (int i = 0; i < 20; i++)
+		{
+			if (block[i].x <= 0) block[i].x = 1280 - 100;
+			block[i].x = block[i].x - 1;
+			asteroidsprite.setPosition(block[i].x, block[i].y);
+			window.draw(asteroidsprite);
+		}
+		
 		window.draw(s1);
 		window.display();
 
@@ -159,7 +190,7 @@ void displayTitleScreen(RenderWindow& window)
 			window.draw(text1);
 		}
 		if (a <= 10) window.close();
-			
+
 
 		window.display();
 	}
