@@ -2,12 +2,11 @@
 
 using namespace std;
 
-Player::Player(stage *currentstage) {
+Player::Player() {
 	m_health = 100;
 	m_damage = 10;
 	m_xp = 0;
 	m_level = 1;
-	m_stage = currentstage;
 }
 float Player::attack() {
 	float damage = m_level * 20;	//TEMPORARY 20

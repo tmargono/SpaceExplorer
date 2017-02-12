@@ -7,7 +7,7 @@
 #include "text.h"
 using namespace sf;
 
-void display(RenderWindow& window, std::string fileName, int numPics);
+void display(RenderWindow& window, std::string fileName, std::string fireballurl, int numPics);
 void displayTitleScreen(RenderWindow& window);
 
 
@@ -21,7 +21,7 @@ int main()
 
 	displayTitleScreen(titleWindow);
 	RenderWindow titleWindow1(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
-	display(titleWindow1, "player.png", 7);
+	display(titleWindow1, "player.png", "fireball.png", 7);
 
 	RenderWindow gameWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Space Explorer");
 
@@ -30,8 +30,10 @@ int main()
 
 
 
-void display(RenderWindow& window, std::string fileName, int numPics)
+void display(RenderWindow& window, std::string fileName, std::string fireballurl, int numPics)
 {
+	Player player1;
+	
 	Texture space;
 	space.loadFromFile("space.png");
 
@@ -40,9 +42,13 @@ void display(RenderWindow& window, std::string fileName, int numPics)
 	Texture t1;
 	t1.loadFromFile(fileName);
 
+	Texture fireballtexture;
+	fireballtexture.loadFromFile(fireballurl);
+
 	IntRect i(0, 0, IMAGE_SIZE, IMAGE_SIZE);
 
 	Sprite s1(t1, i);
+	Sprite fireball(fireballtexture, i);
 
 	Clock c;
 

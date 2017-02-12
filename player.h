@@ -6,7 +6,7 @@ class monster;
 
 class Player {
 public:
-	Player(stage *currentstage);
+	Player();
 	void increaseXP(float xp);
 	float attack();
 	void takedamage(float damage);
