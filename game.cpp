@@ -18,7 +18,7 @@ const int SCRHEIGHT = 800;
 int main()
 {
 	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
-	
+
 	//displayTitleScreen(titleWindow);
 	display(titleWindow, "player.png", 7);
 
@@ -64,7 +64,7 @@ void display(RenderWindow& window, std::string fileName, int numPics)
 	bool forward = true;
 
 	//-------------------------------------------------
-
+	double x = 0, y = 0;
 	while (window.isOpen())
 	{
 		Event event;
@@ -93,6 +93,12 @@ void display(RenderWindow& window, std::string fileName, int numPics)
 			s1.setTextureRect(i);
 			c.restart();
 		}
+		s1.setScale(2, 2);
+		if (Keyboard::isKeyPressed(Keyboard::Right)) x += .5;
+		if (Keyboard::isKeyPressed(Keyboard::Left)) x -= .5;
+		if (Keyboard::isKeyPressed(Keyboard::Up)) y -= .5;
+		if (Keyboard::isKeyPressed(Keyboard::Down)) y += .5;
+		s1.setPosition(x, y);
 
 		window.clear();
 		window.draw(s1);
@@ -144,8 +150,8 @@ void displayTitleScreen(RenderWindow& window)
 		background1.setColor(Color(255, 255, 255, a));
 		text.setFillColor(Color::White);
 		text1.setFillColor(Color::White);
-		text.setColor(Color(255, 255, 255, a));
-		text1.setColor(Color(255, 255, 255, b));
+		text.setFillColor(Color(255, 255, 255, a));
+		text1.setFillColor(Color(255, 255, 255, b));
 
 		if (a >= 0.5) a -= 0.5;
 
@@ -158,10 +164,10 @@ void displayTitleScreen(RenderWindow& window)
 			if (b > 150) x = false;
 			if (x) b++;
 			if (!x && b >= 1) b--;
-			window.draw(text1);			
+			window.draw(text1);
 		}
 		if (a <= 10) window.close();
 
-			window.display();
+		window.display();
 	}
 }
