@@ -8,17 +8,17 @@
 using namespace sf;
 
 void display(RenderWindow& window, std::string fileName);
-void displayTitleScreen();
+void displayTitleScreen(RenderWindow& window);
 
 const double IMAGE_SIZE = 64;
-const int SCRWIDTH = 800;
-const int SCRHEIGHT = 1280;
+const int SCRWIDTH = 1280;
+const int SCRHEIGHT = 800;
 
 int main()
 {
-	RenderWindow window(VideoMode(1280, 800), "Space");
+	RenderWindow window(VideoMode(SCRWIDTH, SCRHEIGHT), "Space");
 	//display(window, "player.png");
-	displayTitleScreen();
+	displayTitleScreen(window);
 }
 
 void display(RenderWindow& window, std::string fileName)
@@ -72,51 +72,61 @@ void display(RenderWindow& window, std::string fileName)
 	}
 }
 
-void displayTitleScreen()
+void displayTitleScreen(RenderWindow& window)
 {
-	sf::RenderWindow window(sf::VideoMode(1280, 800), "Space");
 	window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(false);
 	Texture background;
 	background.loadFromFile("board.jpg");
 	Sprite background1(background);
-
+	Clock c;
 
 	// Create a graphical text to display
-	sf::Font pangolin;
-	sf::Font barrio;
+	Font Roboto;
+	Font Roboto_Bold;
 
-	sf::Text text("Space.", barrio, 30);
-	sf::Text text1("Mist enveloped the ship three hours out from port.", barrio, 50);
-	text.setFillColor(sf::Color::Red);
+	Roboto.loadFromFile("Roboto-Regular.ttf");
+	Roboto_Bold.loadFromFile("Roboto-Bold.ttf");
+
+	Text text("*insert names here* are proud to present", Roboto_Bold, 30);
+	Text text1("SPACE EXPLORER", Roboto_Bold, 50);
 
 	//center text
-	text.setPosition((SCRHEIGHT / 2) - 45, SCRWIDTH / 2);
-	text1.setPosition(0, (SCRWIDTH / 2) - 200);
+	text.setPosition((SCRWIDTH / 2) - (SCRWIDTH / 4), SCRHEIGHT / 4);
+	text1.setPosition((SCRWIDTH / 2) - (SCRWIDTH / 4), (SCRHEIGHT / 2));
 
 	// Start the game loop
-	double a = 255;
+	double a = 255, b = 0, scaleX = 1.02, scaleY = 1.02;
 	while (window.isOpen())
 	{
 		// Process events
-		sf::Event event;
+		Event event;
 		while (window.pollEvent(event))
 		{
 			// Close window: exit
-			if (event.type == sf::Event::Closed)
+			if (event.type == Event::Closed)
 				window.close();
 		}
 		// Clear screen
 		window.clear();
 
-		if (a < 0) { window.close(); }
-		background1.setColor(sf::Color(255, 255, 255, a));
+		background1.setColor(Color(255, 255, 255, a));
+		text.setFillColor(Color::White);
+		text1.setFillColor(Color::White);
+		text.setColor(Color(255, 255, 255, a));
+		text1.setColor(Color(255, 255, 255, b));
 
-		a -= 0.5;
+		if (a >= 0.5) a -= 0.5;
+
+		Time t = c.getElapsedTime();
 
 		window.draw(background1);
 		window.draw(text);
-		window.draw(text1);
-		window.display();
+		if (t > seconds(3))
+		{
+			if (b < 255) b++;
+			window.draw(text1);			
+		}
+			window.display();
 	}
 }
