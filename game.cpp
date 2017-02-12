@@ -21,8 +21,6 @@ struct Point
 
 int main()
 {
-
-
 	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
 
 	displayTitleScreen(titleWindow);
@@ -30,8 +28,6 @@ int main()
 	display(titleWindow1, "player.png", "fireball.png", 7);
 
 	RenderWindow gameWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Space Explorer");
-
-
 }
 
 
@@ -41,7 +37,7 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 	srand(time(0));
 	Point blockright[5];
 	Point blockleft[5];
-	for (int i = 0; i<5; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		blockright[i].x = 1280 - 100;
 		blockright[i].y = rand() & 734 + 33;
@@ -49,7 +45,7 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 		blockleft[i].x = 100;
 		blockleft[i].y = rand() & 734 + 33;
 	}
-	
+
 	//Player player1;
 	Texture asteroid;
 	asteroid.loadFromFile("asteroid.png");
@@ -68,6 +64,7 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 	fireballtexture.loadFromFile(fireballurl);
 
 	IntRect i(0, 0, IMAGE_SIZE, IMAGE_SIZE);
+	IntRect j(0, 0, IMAGE_SIZE, IMAGE_SIZE);
 
 	Sprite s1(t1, i);
 	Sprite fireball(fireballtexture, i);
@@ -78,6 +75,9 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 
 	//-------------------------------------------------
 	double x = 0, y = 0;
+	bool fireShot = false;
+	int direction = -1;
+	double xSpeed = 0, ySpeed = 0, fx = x, fy = y;
 	Clock timer;
 	while (window.isOpen())
 	{
@@ -108,17 +108,57 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 			c.restart();
 		}
 		s1.setScale(2, 2);
-		if (Keyboard::isKeyPressed(Keyboard::Right) && x < 1152) x += .5;
-		if (Keyboard::isKeyPressed(Keyboard::Left) && x > 0) x -= .5;
-		if (Keyboard::isKeyPressed(Keyboard::Up) && y > 0) y -= .5;
-		if (Keyboard::isKeyPressed(Keyboard::Down) && y < 672) y += .5;
+		if (Keyboard::isKeyPressed(Keyboard::Tab)) window.close();
+		if (Keyboard::isKeyPressed(Keyboard::Right) && x < 1152) x += .5, direction = 1;
+		if (Keyboard::isKeyPressed(Keyboard::Left) && x > 0) x -= .5, direction = 3;
+		if (Keyboard::isKeyPressed(Keyboard::Up) && y > 0) y -= .5, direction = 0;
+		if (Keyboard::isKeyPressed(Keyboard::Down) && y < 672) y += .5, direction = 2;
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			fx = x;
+			fy = y;
+
+			xSpeed = 0;
+			ySpeed = 0;
+
+			if (direction == 0)
+			{
+				j.top = 128;
+				ySpeed = -.5;
+			}
+
+			if (direction == 1)
+			{
+				j.top = 256;
+				xSpeed = .5;
+			}
+
+			if (direction == 2)
+			{
+				j.top = 384;
+				ySpeed = 0.5;
+			}
+
+			if (direction == 3)
+			{
+				j.top = 0;
+				xSpeed = -.5;
+			}
+
+		}
+		fx += xSpeed;
+		fy += ySpeed;
+
+		fireball.setTextureRect(j);
+		fireball.setPosition(fx, fy);
+
 		s1.setPosition(x, y);
-
-
 
 		window.clear();
 		window.draw(bg);
-		
+		window.draw(fireball);
+
+
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -129,7 +169,7 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 				blockright[i].y = rand() & 734 + 33;
 			}
 			blockright[i].x = blockright[i].x - 1;
-			
+
 			asteroidsprite.setPosition(blockright[i].x, blockright[i].y);
 			window.draw(asteroidsprite);
 
@@ -150,12 +190,12 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 	}
 	RenderWindow gameOverWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Game Over!");
 	Time points = timer.getElapsedTime();
-	
+
 	Font Roboto;
 	Roboto.loadFromFile("Roboto-Regular.ttf");
 	Text text("Game Over, your score is " + std::to_string(points.asMilliseconds()), Roboto, 50);
 	text.setPosition((SCRWIDTH / 2) - (SCRWIDTH / 4), SCRHEIGHT / 4);
-	
+
 	while (gameOverWindow.isOpen())
 	{
 		// Process events
@@ -168,7 +208,7 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 		}
 		// Clear screen
 		gameOverWindow.clear();
-		
+
 		// Draw the string
 		gameOverWindow.draw(text);
 		// Update the window
@@ -192,7 +232,7 @@ void displayTitleScreen(RenderWindow& window)
 	Roboto.loadFromFile("Roboto-Regular.ttf");
 	Roboto_Bold.loadFromFile("Roboto-Bold.ttf");
 
-	Text text("*insert names here* are proud to present", Roboto_Bold, 30);
+	Text text("Kareem, Jeff, Kenny, Tim, and\n Ritesh are proud to present", Roboto_Bold, 30);
 	Text text1("SPACE EXPLORER", Roboto_Bold, 50);
 
 	//center text
