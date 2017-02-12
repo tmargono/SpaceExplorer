@@ -26,9 +26,10 @@ bool monster::isDead()
 	return false;
 }
 
-float monster::attack()
+float monster::attack(float damage, Player* player)
 {
-    return 1;
+	player->takedamage(damage);
+	return damage;
 }
 
 void monster::takeDamage(float damage)

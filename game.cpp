@@ -7,8 +7,9 @@
 #include "text.h"
 using namespace sf;
 
-void display(RenderWindow& window, std::string fileName);
+void display(RenderWindow& window, std::string fileName, int numPics);
 void displayTitleScreen(RenderWindow& window);
+void playGame(RenderWindow& window);
 
 const double IMAGE_SIZE = 64;
 const int SCRWIDTH = 1280;
@@ -16,12 +17,40 @@ const int SCRHEIGHT = 800;
 
 int main()
 {
-	RenderWindow window(VideoMode(SCRWIDTH, SCRHEIGHT), "Space");
-	//display(window, "player.png");
-	displayTitleScreen(window);
+	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
+	//display(window, "player.png", 9);
+	
+	displayTitleScreen(titleWindow);
+
+	RenderWindow gameWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Space Explorer");
+
+	playGame(gameWindow);
 }
 
-void display(RenderWindow& window, std::string fileName)
+void playGame(RenderWindow& window)
+{
+	Texture space;
+	space.loadFromFile("space.png");
+
+	Sprite bg(space);
+
+	while (window.isOpen())
+	{
+		// Process events
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			// Close window: exit
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		window.clear();
+		window.draw(bg);
+		window.display();
+	}
+}
+
+void display(RenderWindow& window, std::string fileName, int numPics)
 {
 	Texture t1;
 	t1.loadFromFile(fileName);
@@ -50,7 +79,7 @@ void display(RenderWindow& window, std::string fileName)
 		{
 			if (forward)
 				i.left += IMAGE_SIZE;
-			if (i.left >= 512) {
+			if (i.left >= (numPics - 1) * IMAGE_SIZE) {
 				forward = false;
 				i.left -= IMAGE_SIZE;
 			}
@@ -131,6 +160,7 @@ void displayTitleScreen(RenderWindow& window)
 			if (!x && b >= 1) b--;
 			window.draw(text1);			
 		}
+		if (a <= 10) window.close();
 
 			window.display();
 	}

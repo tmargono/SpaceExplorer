@@ -17,7 +17,7 @@ public:
     
     monster(stage *currentStage, int id);
     bool isDead();
-    float attack();
+    float attack(float damage, Player* player);
     void takeDamage(float damage);
 	void givexp(Player *killer);
 	int ID();
