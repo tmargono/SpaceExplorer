@@ -21,7 +21,7 @@ struct Point
 
 int main()
 {
-	
+
 
 	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
 
@@ -39,13 +39,17 @@ int main()
 void display(RenderWindow& window, std::string fileName, std::string fireballurl, int numPics)
 {
 	srand(time(0));
-	Point block[20];
-	for (int i = 0; i<20; i++)
+	Point blockright[5];
+	Point blockleft[5];
+	for (int i = 0; i<5; i++)
 	{
-		block[i].x = 1280-100;
-		block[i].y = rand() & 734 + 33;
+		blockright[i].x = 1280 - 100;
+		blockright[i].y = rand() & 734 + 33;
+
+		blockleft[i].x = 100;
+		blockleft[i].y = rand() & 734 + 33;
 	}
-	//std::cout << block[0].x << " " << block[0].y;
+	
 	//Player player1;
 	Texture asteroid;
 	asteroid.loadFromFile("asteroid.png");
@@ -109,29 +113,67 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 		if (Keyboard::isKeyPressed(Keyboard::Up) && y > 0) y -= .5;
 		if (Keyboard::isKeyPressed(Keyboard::Down) && y < 672) y += .5;
 		s1.setPosition(x, y);
-		
+
 
 
 		window.clear();
 		window.draw(bg);
-		//asteroidsprite.setPosition(block[0].x, block[0].y);
-		//window.draw(asteroidsprite);
 		
-		for (int i = 0; i < 20; i++)
+
+		for (int i = 0; i < 5; i++)
 		{
-			if (block[i].x <= 0) block[i].x = 1280 - 100;
-			block[i].x = block[i].x - 1;
-			asteroidsprite.setPosition(block[i].x, block[i].y);
+			srand(rand());
+			if (blockright[i].x <= 0)
+			{
+				blockright[i].x = 1280 - 100;
+				blockright[i].y = rand() & 734 + 33;
+			}
+			blockright[i].x = blockright[i].x - 1;
+			
+			asteroidsprite.setPosition(blockright[i].x, blockright[i].y);
+			window.draw(asteroidsprite);
+
+			srand(rand());
+			if (blockleft[i].x >= 1280)
+			{
+				blockleft[i].x = 100;
+				blockleft[i].y = rand() & 734 + 33;
+			}
+			blockleft[i].x += 1;
+			asteroidsprite.setPosition(blockleft[i].x, blockleft[i].y);
 			window.draw(asteroidsprite);
 		}
-		
+
 		window.draw(s1);
 		window.display();
 
 	}
+	RenderWindow gameOverWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Game Over!");
 	Time points = timer.getElapsedTime();
-	std::cout << "Game Over, your score is " << points.asMilliseconds() << std::endl;
 	
+	Font Roboto;
+	Roboto.loadFromFile("Roboto-Regular.ttf");
+	Text text("Game Over, your score is " + std::to_string(points.asMilliseconds()), Roboto, 50);
+	text.setPosition((SCRWIDTH / 2) - (SCRWIDTH / 4), SCRHEIGHT / 4);
+	
+	while (gameOverWindow.isOpen())
+	{
+		// Process events
+		sf::Event event;
+		while (gameOverWindow.pollEvent(event))
+		{
+			// Close window: exit
+			if (event.type == sf::Event::Closed)
+				gameOverWindow.close();
+		}
+		// Clear screen
+		gameOverWindow.clear();
+		
+		// Draw the string
+		gameOverWindow.draw(text);
+		// Update the window
+		gameOverWindow.display();
+	}
 }
 
 void displayTitleScreen(RenderWindow& window)
