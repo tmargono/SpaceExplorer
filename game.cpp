@@ -97,6 +97,8 @@ void displayTitleScreen(RenderWindow& window)
 
 	// Start the game loop
 	double a = 255, b = 0, scaleX = 1.02, scaleY = 1.02;
+	bool x = true;
+
 	while (window.isOpen())
 	{
 		// Process events
@@ -124,9 +126,12 @@ void displayTitleScreen(RenderWindow& window)
 		window.draw(text);
 		if (t > seconds(3))
 		{
-			if (b < 255) b++;
+			if (b > 150) x = false;
+			if (x) b++;
+			if (!x && b >= 1) b--;
 			window.draw(text1);			
 		}
+
 			window.display();
 	}
 }
