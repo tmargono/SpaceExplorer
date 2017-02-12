@@ -74,6 +74,7 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 
 	//-------------------------------------------------
 	double x = 0, y = 0;
+	Clock timer;
 	while (window.isOpen())
 	{
 		Event event;
@@ -128,6 +129,9 @@ void display(RenderWindow& window, std::string fileName, std::string fireballurl
 		window.display();
 
 	}
+	Time points = timer.getElapsedTime();
+	std::cout << "Game Over, your score is " << points.asMilliseconds() << std::endl;
+	
 }
 
 void displayTitleScreen(RenderWindow& window)
