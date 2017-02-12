@@ -9,7 +9,7 @@ using namespace sf;
 
 void display(RenderWindow& window, std::string fileName, int numPics);
 void displayTitleScreen(RenderWindow& window);
-void playGame(RenderWindow& window);
+
 
 const double IMAGE_SIZE = 64;
 const int SCRWIDTH = 1280;
@@ -19,39 +19,24 @@ int main()
 {
 	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
 
-	//displayTitleScreen(titleWindow);
-	display(titleWindow, "player.png", 7);
+	displayTitleScreen(titleWindow);
+	RenderWindow titleWindow1(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
+	display(titleWindow1, "player.png", 7);
 
 	RenderWindow gameWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Space Explorer");
 
-	//playGame(gameWindow);
+	
 }
 
-void playGame(RenderWindow& window)
+
+
+void display(RenderWindow& window, std::string fileName, int numPics)
 {
 	Texture space;
 	space.loadFromFile("space.png");
 
 	Sprite bg(space);
 
-	while (window.isOpen())
-	{
-		// Process events
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			// Close window: exit
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		window.clear();
-		window.draw(bg);
-		window.display();
-	}
-}
-
-void display(RenderWindow& window, std::string fileName, int numPics)
-{
 	Texture t1;
 	t1.loadFromFile(fileName);
 
@@ -94,13 +79,14 @@ void display(RenderWindow& window, std::string fileName, int numPics)
 			c.restart();
 		}
 		s1.setScale(2, 2);
-		if (Keyboard::isKeyPressed(Keyboard::Right)) x += .5;
-		if (Keyboard::isKeyPressed(Keyboard::Left)) x -= .5;
-		if (Keyboard::isKeyPressed(Keyboard::Up)) y -= .5;
-		if (Keyboard::isKeyPressed(Keyboard::Down)) y += .5;
+		if (Keyboard::isKeyPressed(Keyboard::Right) && x < 1152) x += .5;
+		if (Keyboard::isKeyPressed(Keyboard::Left) && x > 0) x -= .5;
+		if (Keyboard::isKeyPressed(Keyboard::Up) && y > 0) y -= .5;
+		if (Keyboard::isKeyPressed(Keyboard::Down) && y < 672) y += .5;
 		s1.setPosition(x, y);
 
 		window.clear();
+		window.draw(bg);
 		window.draw(s1);
 		window.display();
 
@@ -167,6 +153,7 @@ void displayTitleScreen(RenderWindow& window)
 			window.draw(text1);
 		}
 		if (a <= 10) window.close();
+			
 
 		window.display();
 	}
