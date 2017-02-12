@@ -18,13 +18,13 @@ const int SCRHEIGHT = 800;
 int main()
 {
 	RenderWindow titleWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Welcome to Space Explorer!");
-	//display(window, "player.png", 9);
 	
-	displayTitleScreen(titleWindow);
+	//displayTitleScreen(titleWindow);
+	display(titleWindow, "player.png", 7);
 
 	RenderWindow gameWindow(VideoMode(SCRWIDTH, SCRHEIGHT), "Space Explorer");
 
-	playGame(gameWindow);
+	//playGame(gameWindow);
 }
 
 void playGame(RenderWindow& window)
@@ -55,7 +55,7 @@ void display(RenderWindow& window, std::string fileName, int numPics)
 	Texture t1;
 	t1.loadFromFile(fileName);
 
-	IntRect i(0, 700, IMAGE_SIZE, IMAGE_SIZE);
+	IntRect i(0, 0, IMAGE_SIZE, IMAGE_SIZE);
 
 	Sprite s1(t1, i);
 
